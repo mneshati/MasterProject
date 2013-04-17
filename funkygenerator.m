@@ -1,6 +1,6 @@
 function result = funkygenerator(varargin)
 % usage:
-% result_matrix = funkygenerator([a b c], [d e f], [g h i], ...)
+% result_matrix = funkygenerator(T, K, A, B, C, L, [a b c], [d e f], [g h i], ...)
 % where abc is for the first dimension where a: lower limit; b: step size;
 % c: higher limit
 
@@ -8,11 +8,23 @@ function result = funkygenerator(varargin)
 % to extract varargin
 % cell2mat(varargin(k))
 
-% number of dimensions = number of inputs
-nDim = nargin;
+% number of dimensions = number of inputs - num of fixed inputs
 
+disp('starting funky generator');
+numOfStaticFirstValues = 6;
+nDim = nargin-numOfStaticFirstValues;
 sizes = [];
-for i = 1:nargin
+
+T = cell2mat(varargin(1))
+K = cell2mat(varargin(2))
+A = cell2mat(varargin(3))
+B = cell2mat(varargin(4))
+C = cell2mat(varargin(5))
+l = cell2mat(varargin(6))
+[Ad,Bd]=c2d(A,B,T); %discretized system
+Cd = C; 
+
+for i = numOfStaticFirstValues+1:nargin
     sizes(i,:) = cell2mat(varargin(i));
 end
 
